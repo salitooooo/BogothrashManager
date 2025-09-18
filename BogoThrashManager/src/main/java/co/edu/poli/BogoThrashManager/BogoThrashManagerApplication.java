@@ -9,6 +9,7 @@ public class BogoThrashManagerApplication {
 	public static void main(String[] args) {
 		System.out.println("Sapopinga");
 		SpringApplication.run(BogoThrashManagerApplication.class, args);
+		System.out.println("Sapopinga");
 	}
 
 }
