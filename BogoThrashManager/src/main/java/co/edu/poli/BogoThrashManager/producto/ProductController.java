@@ -1,4 +1,4 @@
-package producto;
+package co.edu.poli.BogoThrashManager.producto;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
