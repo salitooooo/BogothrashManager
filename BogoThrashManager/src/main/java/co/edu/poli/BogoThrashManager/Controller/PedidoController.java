@@ -17,7 +17,7 @@ public class PedidoController {
 private PedidoService pedidoService;
 @PostMapping
 public ResponseEntity create(@RequestBody Pedido pedido) {
-Pedido saved = pedidoService.createPedido(pedido.getDetalle());
+Pedido saved = pedidoService.createPedido(pedido);
 return ResponseEntity.ok(saved);
 }
 @GetMapping

@@ -8,8 +8,8 @@ import java.util.List;
 public class PedidoService {
 @Autowired
 private PedidoRepository pedidoRepository;
-public Pedido createPedido(String detalle) {
-Pedido pedido = new Pedido(detalle);
+
+public Pedido createPedido(Pedido pedido) {
 return pedidoRepository.save(pedido); // This triggers JPA to insert into DB
 }
 public List getAllPedidos() {
