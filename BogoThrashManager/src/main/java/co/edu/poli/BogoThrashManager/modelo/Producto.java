@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor  // Generates default (no-arg) constructor (required for JPA)
 @AllArgsConstructor 
 public abstract class Producto {
-
+//xd
     /**
      * 
      */
