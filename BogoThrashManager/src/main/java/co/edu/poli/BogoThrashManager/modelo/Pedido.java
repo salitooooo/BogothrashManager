@@ -32,6 +32,16 @@ public class Pedido {
     @Column(name = "barista")
     private String barista;
     
+    @Column(name = "fechaCompra")
+    private String fechaCompra;
+    
+    @Column(name = "cupon")
+    private boolean cupon;
+    
+    @Column(name = "formaDePago")
+    private String formaDePago;
+    
+    
     
     // Default constructor (required by JPA)
 		
