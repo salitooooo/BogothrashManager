@@ -24,7 +24,7 @@ public class Pedido {
     private Long id;  // Changed to Long for simplicity
     
     @Column(name = "detallePedido")
-    private String detalle;
+    private DetallePedido detalle;
     
     @Column(name="cliente")
     private String cliente;
