@@ -28,7 +28,6 @@ public class Pedido {
     
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "detallePedidoId")
-    @Column(name = "detallePedido")
     private DetallePedido detalle;
     
     @Column(name="cliente")
