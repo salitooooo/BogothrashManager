@@ -1,10 +1,13 @@
 package co.edu.poli.BogoThrashManager.modelo;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +26,8 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-increment for Postgres
     private Long id;  // Changed to Long for simplicity
     
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "detallePedidoId")
     @Column(name = "detallePedido")
     private DetallePedido detalle;
     

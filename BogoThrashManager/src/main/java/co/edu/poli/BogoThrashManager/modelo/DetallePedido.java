@@ -33,13 +33,13 @@ public class DetallePedido {
      */
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	@OneToMany(cascade= CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name= "destallePedidoId")//foreing key en detalle pedido
     private long idDetalle;
 
     /**
      * 
      */
+	@OneToMany(cascade= CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval= true)
+	@JoinColumn(name= "destallePedidoId")//foreing key en detalle pedido
 	@Column(name = "productos")
 	private List<Producto> productos;
    
