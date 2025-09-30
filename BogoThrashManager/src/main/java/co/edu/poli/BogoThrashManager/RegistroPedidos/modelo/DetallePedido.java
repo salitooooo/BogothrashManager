@@ -1,4 +1,4 @@
-package co.edu.poli.BogoThrashManager.modelo;
+package co.edu.poli.BogoThrashManager.RegistroPedidos.modelo;
 
 import java.util.*;
 

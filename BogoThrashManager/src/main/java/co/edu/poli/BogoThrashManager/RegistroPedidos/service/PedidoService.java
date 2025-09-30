@@ -1,6 +1,7 @@
-package co.edu.poli.BogoThrashManager.service;
-import co.edu.poli.BogoThrashManager.modelo.Pedido;
-import co.edu.poli.BogoThrashManager.repository.PedidoRepository;
+package co.edu.poli.BogoThrashManager.RegistroPedidos.service;
+import co.edu.poli.BogoThrashManager.RegistroPedidos.modelo.Pedido;
+import co.edu.poli.BogoThrashManager.RegistroPedidos.repository.PedidoRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
