@@ -1,5 +1,6 @@
 package co.edu.poli.BogoThrashManager.RegistroPedidos.service;
 import co.edu.poli.BogoThrashManager.RegistroPedidos.modelo.Pedido;
+import co.edu.poli.BogoThrashManager.RegistroPedidos.modelo.Producto;
 import co.edu.poli.BogoThrashManager.RegistroPedidos.repository.PedidoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,36 @@ return pedidoRepository.findAll();
 
 public Optional<Pedido> updatePedido(Long id, Pedido updatedPedido) {
     return pedidoRepository.findById(id).map(pedido -> {
-        // Update fields if provided (non-null check optional for simplicity)
-        pedido.setDetalle(updatedPedido.getDetalle() != null ? updatedPedido.getDetalle() : pedido.getDetalle());
+        if (updatedPedido.getDetalle() != null) {
+            if (pedido.getDetalle() == null) {
+                pedido.setDetalle(updatedPedido.getDetalle());
+            } else {
+                // Update nested fields inside detalle
+                pedido.getDetalle().setPrecioTotal(
+                    updatedPedido.getDetalle().getPrecioTotal() != null ? 
+                    updatedPedido.getDetalle().getPrecioTotal() : 
+                    pedido.getDetalle().getPrecioTotal()
+                );
+
+                if (updatedPedido.getDetalle().getProductos() != null) {
+                	List<Producto> existingProductos = pedido.getDetalle().getProductos();
+                	List<Producto> updatedProductos = updatedPedido.getDetalle().getProductos();
+                	existingProductos.clear();  // Remove all old elements (or selectively remove)
+                	existingProductos.addAll(updatedProductos);  // Add new elements
+                }
+            }
+        }
+
         pedido.setCliente(updatedPedido.getCliente() != null ? updatedPedido.getCliente() : pedido.getCliente());
         pedido.setBarista(updatedPedido.getBarista() != null ? updatedPedido.getBarista() : pedido.getBarista());
-        return pedidoRepository.save(pedido);  // Saves the updated entity
+        pedido.setFechaCompra(updatedPedido.getFechaCompra() != null ? updatedPedido.getFechaCompra() : pedido.getFechaCompra());
+        pedido.setCupon(updatedPedido.isCupon());
+        pedido.setFormaDePago(updatedPedido.getFormaDePago() != null ? updatedPedido.getFormaDePago() : pedido.getFormaDePago());
+
+        return pedidoRepository.save(pedido);
     });
 }
+
 
 public boolean deletePedido(Long id) {
     if (pedidoRepository.existsById(id)) {

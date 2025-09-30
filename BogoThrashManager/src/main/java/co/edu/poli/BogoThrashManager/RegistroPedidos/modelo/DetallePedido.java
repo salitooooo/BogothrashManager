@@ -33,7 +33,7 @@ public class DetallePedido {
      */
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-    private long idDetalle;
+    private Long idDetalle;
 
     /**
      * 
@@ -47,6 +47,6 @@ public class DetallePedido {
      * 
      */
 	@Column(name = "precioTotal")
-    private long precioTotal;
+    private Long precioTotal;
 
 }

@@ -24,7 +24,10 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="Producto")
 @Inheritance(strategy = InheritanceType.JOINED)
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "tipo")
+@JsonTypeInfo(
+use = JsonTypeInfo.Id.NAME, 
+include = JsonTypeInfo.As.PROPERTY, 
+property = "tipoProducto")
 @JsonSubTypes({
     @JsonSubTypes.Type(value = ProductoSnack.class, name = "snack"),
     @JsonSubTypes.Type(value = ProductoBebida.class, name = "bebida")
