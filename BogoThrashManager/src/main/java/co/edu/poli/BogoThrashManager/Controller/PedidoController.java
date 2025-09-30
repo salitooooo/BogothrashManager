@@ -28,7 +28,9 @@ private PedidoService pedidoService;
 
 @ApiOperation(value = "Crea un pedido", notes = "Crea un pedido con todos sus datos")
 @PostMapping
-public ResponseEntity create(@RequestBody Pedido pedido) {
+public ResponseEntity create(
+		@ApiParam(value = "Nuevo pedido del cliente", required = true)
+		@RequestBody Pedido pedido) {
 Pedido saved = pedidoService.createPedido(pedido);
 return ResponseEntity.ok(saved);
 }
@@ -42,7 +44,7 @@ return ResponseEntity.ok(pedidoService.getAllPedidos());
 @ApiOperation(value = "Encuentra un pedido por id", notes = "A travez de una id, busca un pedido en la base de datos")
 @GetMapping("/{id}")
 public ResponseEntity<Pedido> getById(
-		@ApiParam(value = "Id del pedido", required = true)
+		@ApiParam(value = "Id del pedido por buscar", required = true)
 		@PathVariable Long id) {
     Optional<Pedido> pedido = pedidoService.getPedidoById(id);
     return pedido.map(ResponseEntity::ok)
@@ -51,7 +53,11 @@ public ResponseEntity<Pedido> getById(
 
 @ApiOperation(value = "Modifica un pedido por id", notes = "Crea una copia del pedido con la id, permitiendo modificarlo mas tarde")
 @PutMapping("/{id}")
-public ResponseEntity<Pedido> update(@PathVariable Long id, @RequestBody Pedido updatedPedido) {
+public ResponseEntity<Pedido> update(
+		@ApiParam(value = "Id del pedido a cambiar", required = true)
+		@PathVariable Long id, 
+		@ApiParam(value = "Pedido ya modificado", required = true)
+		@RequestBody Pedido updatedPedido) {
     Optional<Pedido> updated = pedidoService.updatePedido(id, updatedPedido);
     return updated.map(ResponseEntity::ok)
                   .orElse(ResponseEntity.notFound().build());  // 404 if not found
@@ -59,7 +65,9 @@ public ResponseEntity<Pedido> update(@PathVariable Long id, @RequestBody Pedido 
 
 @ApiOperation(value = "Elimina un pedido", notes = "Elimina un pedido de la base de datos utilizando su id")
 @DeleteMapping("/{id}")
-public ResponseEntity<Void> delete(@PathVariable Long id) {
+public ResponseEntity<Void> delete(
+		@ApiParam(value = "Id del pedido a eliminar")
+		@PathVariable Long id) {
     boolean deleted = pedidoService.deletePedido(id);
     if (deleted) {
         return ResponseEntity.noContent().build();  // 204 No Content on success
