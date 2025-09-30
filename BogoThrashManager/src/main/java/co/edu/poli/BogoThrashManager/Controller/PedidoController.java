@@ -27,6 +27,7 @@ public class PedidoController {
 private PedidoService pedidoService;
 
 @ApiOperation(value = "Crea un pedido", notes = "Crea un pedido con todos sus datos")
+
 @PostMapping
 public ResponseEntity create(
 		@ApiParam(value = "Nuevo pedido del cliente", required = true)
@@ -36,12 +37,14 @@ return ResponseEntity.ok(saved);
 }
 
 @ApiOperation(value = "Consigue todos los pedidos")
+
 @GetMapping
 public ResponseEntity<List> getAll() {
 return ResponseEntity.ok(pedidoService.getAllPedidos());
 }
 
 @ApiOperation(value = "Encuentra un pedido por id", notes = "A travez de una id, busca un pedido en la base de datos")
+
 @GetMapping("/{id}")
 public ResponseEntity<Pedido> getById(
 		@ApiParam(value = "Id del pedido por buscar", required = true)
@@ -52,6 +55,7 @@ public ResponseEntity<Pedido> getById(
 }
 
 @ApiOperation(value = "Modifica un pedido por id", notes = "Crea una copia del pedido con la id, permitiendo modificarlo mas tarde")
+
 @PutMapping("/{id}")
 public ResponseEntity<Pedido> update(
 		@ApiParam(value = "Id del pedido a cambiar", required = true)
@@ -64,6 +68,7 @@ public ResponseEntity<Pedido> update(
 }
 
 @ApiOperation(value = "Elimina un pedido", notes = "Elimina un pedido de la base de datos utilizando su id")
+
 @DeleteMapping("/{id}")
 public ResponseEntity<Void> delete(
 		@ApiParam(value = "Id del pedido a eliminar")
