@@ -36,7 +36,7 @@ public class NotificacionController {
 	 }
 	 @PutMapping("/{id}")
 	 public ResponseEntity <String> update(){
-	return ResponseEntity.ok("notificacion actuañizada");
+	return ResponseEntity.ok("notificacion actualizada");
 		 
 	 }
 	
