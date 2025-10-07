@@ -10,6 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -38,9 +40,13 @@ public class DetallePedido {
     /**
      * 
      */
-	@OneToMany(cascade= CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval= true)
-	@JoinColumn(name= "destallePedidoId")//foreing key en detalle pedido
-	@Column(name = "productos")
+	@ManyToMany(cascade = CascadeType.ALL)
+	
+    @JoinTable(
+            name = "detalleProductos",
+            joinColumns = @JoinColumn(name = "detalleId"),
+            inverseJoinColumns = @JoinColumn(name = "productoId")
+        )
 	private List<Producto> productos;
    
     /**
