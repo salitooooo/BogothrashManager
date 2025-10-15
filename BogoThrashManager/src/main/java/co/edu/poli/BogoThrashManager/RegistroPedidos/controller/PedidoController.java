@@ -1,5 +1,7 @@
 package co.edu.poli.BogoThrashManager.RegistroPedidos.controller;
 
+import co.edu.poli.BogoThrashManager.Notificaciones.modelo.Notificacion;
+import co.edu.poli.BogoThrashManager.Notificaciones.service.NotificacionService;
 import co.edu.poli.BogoThrashManager.RegistroPedidos.modelo.Pedido;
 import co.edu.poli.BogoThrashManager.RegistroPedidos.service.PedidoService;
 
@@ -23,6 +25,9 @@ public class PedidoController {
 
     @Autowired
     private PedidoService pedidoService;
+    
+    @Autowired
+    private NotificacionService notificacionService;
 
     @Operation(summary = "Crea un pedido", description = "Crea un pedido con todos sus datos")
     @ApiResponses(value = {
@@ -35,6 +40,12 @@ public class PedidoController {
         @RequestBody Pedido pedido) {
         Pedido saved = pedidoService.createPedido(pedido);
         return ResponseEntity.ok(saved);
+    }
+    
+    @PostMapping("/mail")
+    public ResponseEntity<String>sendMail(@RequestBody Notificacion n){
+    	notificacionService.sendEmail(n);
+    	return ResponseEntity.ok("email enviado");
     }
 
     @Operation(summary = "Consigue todos los pedidos")

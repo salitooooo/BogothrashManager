@@ -8,23 +8,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * 
- */
-@Data  // Generates: getters, setters, toString(), equals(), hashCode() for all fields
-@NoArgsConstructor  // Generates default (no-arg) constructor (required for JPA)
-@AllArgsConstructor 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Notificacion {
-
-
-    /**
-     * 
-     */
-    private Long idNotificacion;
-
-    /**
-     * 
-     */
-    private Pedido pedido;
-
+	
+	private String toEmail;
+	
+	private String subject;
+	
+	private String body;
 }
