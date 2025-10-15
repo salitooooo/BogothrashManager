@@ -1,6 +1,6 @@
-package co.edu.poli.BogoThrashManager.RegistroPedidos.modelo;
-import java.util.*;
+package co.edu.poli.BogoThrashManager.RegistroInventario.modelo;
 
+import java.util.*;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,11 +16,11 @@ import lombok.NoArgsConstructor;
  * 
  */
 @Entity
-@Table(name = "TipoBebida")
+@Table(name = "TipoSnack")
 @Data  // Generates: getters, setters, toString(), equals(), hashCode() for all fields
 @NoArgsConstructor  // Generates default (no-arg) constructor (required for JPA)
 @AllArgsConstructor 
-public class TipoBebida {
+public class TipoSnack {
 
 
 

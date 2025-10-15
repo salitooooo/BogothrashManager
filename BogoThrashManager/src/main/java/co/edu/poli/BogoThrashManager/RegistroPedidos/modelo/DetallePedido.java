@@ -2,6 +2,7 @@ package co.edu.poli.BogoThrashManager.RegistroPedidos.modelo;
 
 import java.util.*;
 
+import co.edu.poli.BogoThrashManager.RegistroInventario.modelo.Producto;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -47,7 +48,7 @@ public class DetallePedido {
             joinColumns = @JoinColumn(name = "detalleId"),
             inverseJoinColumns = @JoinColumn(name = "productoId")
         )
-	private List<Producto> productos;
+	private List<Long> productos;
    
     /**
      * 
