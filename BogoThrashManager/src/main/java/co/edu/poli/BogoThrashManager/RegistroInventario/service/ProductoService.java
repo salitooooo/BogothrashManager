@@ -12,7 +12,7 @@ import co.edu.poli.BogoThrashManager.RegistroInventario.repository.InventarioRep
 public class ProductoService {
 	@Autowired 
 	private InventarioRepository productoRepository;
-	public Producto findOrCreateProducto (Producto producto) {
+	public Producto findOrCreateProducto (Producto producto) throws Exception{
 		//verificar polimorfismo
 	if (producto instanceof ProductoSnack) {
 		ProductoSnack snack = (ProductoSnack) producto;
@@ -23,8 +23,8 @@ public class ProductoService {
                     newSnack.setNombre(snack.getNombre());
                     newSnack.setPrecio(snack.getPrecio());
                     newSnack.setTipo(snack.getTipo());  // Assume tipo is managed separately or fetched
-                    newSnack.setEsDulce(snack.getEsDulce());
-                    newSnack.setEsVegano(snack.getEsVegano());
+                    newSnack.setEsDulce(snack.isEsDulce());
+                    newSnack.setEsVegano(snack.isEsVegano());
                     return productoRepository.save(newSnack);
                 });
 	}
@@ -41,11 +41,12 @@ public class ProductoService {
                 newBebida.setNombre(bebida.getNombre());
                 newBebida.setPrecio(bebida.getPrecio());
                 newBebida.setTipo(bebida.getTipo());
-                newBebida.setEsCaliente(bebida.getEsCaliente());
-                newBebida.setTieneAlcohol(bebida.getTieneAlcohol());
+                newBebida.setEsCaliente(bebida.isEsCaliente());
+                newBebida.setTieneAlcohol(bebida.isTieneAlcohol());
                 return productoRepository.save(newBebida);
             });
         }
+	throw new IllegalArgumentException("Unsupported producto type: " + producto.getClass().getName());
 	}
 	}
-}
+
