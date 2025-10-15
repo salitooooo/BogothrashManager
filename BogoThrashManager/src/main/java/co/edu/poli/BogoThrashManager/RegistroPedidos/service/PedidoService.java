@@ -35,8 +35,8 @@ public Optional<Pedido> updatePedido(Long id, Pedido updatedPedido) {
                 );
 
                 if (updatedPedido.getDetalle().getProductos() != null) {
-                	List<Producto> existingProductos = pedido.getDetalle().getProductos();
-                	List<Producto> updatedProductos = updatedPedido.getDetalle().getProductos();
+                	List<Long> existingProductos = pedido.getDetalle().getProductos();
+                	List<Long> updatedProductos = updatedPedido.getDetalle().getProductos();
                 	existingProductos.clear();  // Remove all old elements (or selectively remove)
                 	existingProductos.addAll(updatedProductos);  // Add new elements
                 }

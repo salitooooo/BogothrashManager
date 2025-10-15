@@ -4,7 +4,9 @@ import java.util.*;
 
 import co.edu.poli.BogoThrashManager.RegistroInventario.modelo.Producto;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -41,13 +43,10 @@ public class DetallePedido {
     /**
      * 
      */
-	@ManyToMany(cascade = CascadeType.ALL)
 	
-    @JoinTable(
-            name = "detalleProductos",
-            joinColumns = @JoinColumn(name = "detalleId"),
-            inverseJoinColumns = @JoinColumn(name = "productoId")
-        )
+	@ElementCollection(fetch = FetchType.EAGER)  // Or a simple List if no complex associations needed
+    @CollectionTable(name = "detalleProductos", joinColumns = @JoinColumn(name = "detalleId"))
+    @Column(name = "productoId")
 	private List<Long> productos;
    
     /**

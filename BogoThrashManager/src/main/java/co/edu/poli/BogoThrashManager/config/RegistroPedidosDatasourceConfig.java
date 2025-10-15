@@ -34,7 +34,7 @@ public class RegistroPedidosDatasourceConfig {
         // HARDCODED TEST: Replace with your Supabase details
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl("jdbc:postgresql://aws-1-us-east-2.pooler.supabase.com:6543/postgres?sslmode=require");
-        config.setUsername("postgres.fvgdqthrljrtmexqhfxa");
+        config.setUsername("postgres.ilgmelliskmwfgaqlctv");
         config.setPassword("Servidor123");
         config.setDriverClassName("org.postgresql.Driver");
         config.setMaximumPoolSize(10);
