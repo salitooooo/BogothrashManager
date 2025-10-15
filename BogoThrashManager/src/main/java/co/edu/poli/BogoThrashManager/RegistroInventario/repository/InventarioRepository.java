@@ -14,5 +14,6 @@ public interface InventarioRepository extends JpaRepository<Producto, Long> {
 	
 	@Query("SELECT p FROM Producto p WHERE p.nombre = :nombre AND p.tipo.nombre = :tipoNombre AND p.EsCaliente = :EsCaliente AND p.TieneAlcohol = :TieneAlcohol")
 	public Producto findByNombreAndTipoNombreAndEsCalienteAndTieneAlcohol();
+	//spp
 
 }
