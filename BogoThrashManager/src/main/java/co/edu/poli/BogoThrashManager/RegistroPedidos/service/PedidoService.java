@@ -1,10 +1,13 @@
 package co.edu.poli.BogoThrashManager.RegistroPedidos.service;
 import co.edu.poli.BogoThrashManager.RegistroInventario.modelo.Producto;
+import co.edu.poli.BogoThrashManager.RegistroInventario.service.ProductoService;
 import co.edu.poli.BogoThrashManager.RegistroPedidos.modelo.Pedido;
 import co.edu.poli.BogoThrashManager.RegistroPedidos.repository.PedidoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,9 +15,21 @@ import java.util.Optional;
 public class PedidoService {
 @Autowired
 private PedidoRepository pedidoRepository;
+@Autowired
+private ProductoService productoService;
 
 public Pedido createPedido(Pedido pedido) {
-return pedidoRepository.save(pedido); // This triggers JPA to insert into DB
+    if (pedido.getDetalle() != null && pedido.getDetalle().getProductos() != null) {
+        List<Producto> uniqueProductos = new ArrayList<>();
+        for (Producto incomingProducto : pedido.getDetalle().getProductos()) {
+            Producto existingOrNew = productoService.findOrCreateProducto(incomingProducto);
+            uniqueProductos.add(existingOrNew);
+        }
+        pedido.getDetalle().setProductos(uniqueProductos);  // Replace with unique instances
+    }
+    
+    // Now save - only associations will be created in join table
+    return pedidoRepository.save(pedido);
 }
 
 public List getAllPedidos() {

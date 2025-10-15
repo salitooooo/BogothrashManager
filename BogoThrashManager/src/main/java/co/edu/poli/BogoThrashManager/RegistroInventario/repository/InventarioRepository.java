@@ -7,5 +7,6 @@ import co.edu.poli.BogoThrashManager.RegistroInventario.modelo.Producto;
 
 
 public interface InventarioRepository extends JpaRepository<Producto, Long> {
+	
 
 }
