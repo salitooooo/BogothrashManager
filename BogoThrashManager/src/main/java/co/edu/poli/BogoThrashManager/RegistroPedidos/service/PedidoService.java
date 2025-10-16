@@ -1,84 +1,106 @@
 package co.edu.poli.BogoThrashManager.RegistroPedidos.service;
+
 import co.edu.poli.BogoThrashManager.RegistroInventario.modelo.Producto;
 import co.edu.poli.BogoThrashManager.RegistroInventario.service.ProductoService;
+import co.edu.poli.BogoThrashManager.RegistroPedidos.dto.PedidoInsertDto;
+import co.edu.poli.BogoThrashManager.RegistroPedidos.modelo.DetallePedido;
 import co.edu.poli.BogoThrashManager.RegistroPedidos.modelo.Pedido;
 import co.edu.poli.BogoThrashManager.RegistroPedidos.repository.PedidoRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class PedidoService {
-@Autowired
-private PedidoRepository pedidoRepository;
-@Autowired
-private ProductoService productoService;
 
-public Pedido createPedido(Pedido pedido) {
-    if (pedido.getDetalle() != null && pedido.getDetalle().getProductos() != null) {
-        List<Producto> uniqueProductos = new ArrayList<>();
-        for (Producto incomingProducto : pedido.getDetalle().getProductos()) {
-            Producto existingOrNew = productoService.findOrCreateProducto(incomingProducto);
-            uniqueProductos.add(existingOrNew);
+    @Autowired
+    private PedidoRepository pedidoRepository;
+
+    @Autowired
+    private ProductoService productoService;
+
+    public Pedido createPedido(PedidoInsertDto dto) throws Exception {
+        // Create a new Pedido entity
+        Pedido pedidoEntity = new Pedido();
+        
+        // Map fields from DTO to entity
+        pedidoEntity.setCliente(dto.getCliente());
+        pedidoEntity.setBarista(dto.getBarista());
+        pedidoEntity.setFormaDePago(dto.getFormaDePago());
+        
+        // Set default values for fields not in DTO
+        pedidoEntity.setCupon(false);  // Default to false; you can change this if needed
+        pedidoEntity.setFechaCompra(new Date().toString());  // Set to current date as string
+        
+        if (dto.getDetalle() != null) {
+            DetallePedido detalleEntity = new DetallePedido();  // Create a new DetallePedido entity
+            detalleEntity.setPrecioTotal(dto.getDetalle().getPrecioTotal());
+            
+            if (dto.getDetalle().getProductos() != null) {
+                List<Long> productIds = new ArrayList<>();  // List to hold product IDs
+                for (Producto incomingProducto : dto.getDetalle().getProductos()) {
+                    Producto existingOrNew = productoService.findOrCreateProducto(incomingProducto);
+                    productIds.add(existingOrNew.getIdProducto());
+                }
+                detalleEntity.setProductos(productIds);  // Set the list of product IDs
+            }
+            
+            pedidoEntity.setDetalle(detalleEntity);  // Set the detalle in the Pedido entity
         }
-        pedido.getDetalle().setProductos(uniqueProductos);  // Replace with unique instances
+        
+        // Save the Pedido entity (this will also save the DetallePedido due to CascadeType.ALL)
+        return pedidoRepository.save(pedidoEntity);
     }
-    
-    // Now save - only associations will be created in join table
-    return pedidoRepository.save(pedido);
-}
 
-public List getAllPedidos() {
-return pedidoRepository.findAll();
-}
+    public List<Pedido> getAllPedidos() {
+        return pedidoRepository.findAll();
+    }
 
-public Optional<Pedido> updatePedido(Long id, Pedido updatedPedido) {
-    return pedidoRepository.findById(id).map(pedido -> {
-        if (updatedPedido.getDetalle() != null) {
-            if (pedido.getDetalle() == null) {
-                pedido.setDetalle(updatedPedido.getDetalle());
-            } else {
-                // Update nested fields inside detalle
-                pedido.getDetalle().setPrecioTotal(
-                    updatedPedido.getDetalle().getPrecioTotal() != null ? 
-                    updatedPedido.getDetalle().getPrecioTotal() : 
-                    pedido.getDetalle().getPrecioTotal()
-                );
+    public Optional<Pedido> updatePedido(Long id, Pedido updatedPedido) {
+        return pedidoRepository.findById(id).map(pedido -> {
+            if (updatedPedido.getDetalle() != null) {
+                if (pedido.getDetalle() == null) {
+                    pedido.setDetalle(updatedPedido.getDetalle());
+                } else {
+                    // Update nested fields inside detalle
+                    pedido.getDetalle().setPrecioTotal(
+                        updatedPedido.getDetalle().getPrecioTotal() != null ? 
+                        updatedPedido.getDetalle().getPrecioTotal() : 
+                        pedido.getDetalle().getPrecioTotal()
+                    );
 
-                if (updatedPedido.getDetalle().getProductos() != null) {
-                	List<Long> existingProductos = pedido.getDetalle().getProductos();
-                	List<Long> updatedProductos = updatedPedido.getDetalle().getProductos();
-                	existingProductos.clear();  // Remove all old elements (or selectively remove)
-                	existingProductos.addAll(updatedProductos);  // Add new elements
+                    if (updatedPedido.getDetalle().getProductos() != null) {
+                        List<Long> existingProductos = pedido.getDetalle().getProductos();
+                        List<Long> updatedProductos = updatedPedido.getDetalle().getProductos();
+                        existingProductos.clear();  // Remove all old elements
+                        existingProductos.addAll(updatedProductos);  // Add new elements
+                    }
                 }
             }
-        }
 
-        pedido.setCliente(updatedPedido.getCliente() != null ? updatedPedido.getCliente() : pedido.getCliente());
-        pedido.setBarista(updatedPedido.getBarista() != null ? updatedPedido.getBarista() : pedido.getBarista());
-        pedido.setFechaCompra(updatedPedido.getFechaCompra() != null ? updatedPedido.getFechaCompra() : pedido.getFechaCompra());
-        pedido.setCupon(updatedPedido.isCupon());
-        pedido.setFormaDePago(updatedPedido.getFormaDePago() != null ? updatedPedido.getFormaDePago() : pedido.getFormaDePago());
+            pedido.setCliente(updatedPedido.getCliente() != null ? updatedPedido.getCliente() : pedido.getCliente());
+            pedido.setBarista(updatedPedido.getBarista() != null ? updatedPedido.getBarista() : pedido.getBarista());
+            pedido.setFechaCompra(updatedPedido.getFechaCompra() != null ? updatedPedido.getFechaCompra() : pedido.getFechaCompra());
+            pedido.setCupon(updatedPedido.isCupon());
+            pedido.setFormaDePago(updatedPedido.getFormaDePago() != null ? updatedPedido.getFormaDePago() : pedido.getFormaDePago());
 
-        return pedidoRepository.save(pedido);
-    });
-}
-
-
-public boolean deletePedido(Long id) {
-    if (pedidoRepository.existsById(id)) {
-        pedidoRepository.deleteById(id);
-        return true;
+            return pedidoRepository.save(pedido);
+        });
     }
-    return false;  // Returns false if ID not found
-}
 
-public Optional<Pedido> getPedidoById(Long id) {
-    return pedidoRepository.findById(id);
-}
+    public boolean deletePedido(Long id) {
+        if (pedidoRepository.existsById(id)) {
+            pedidoRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 
+    public Optional<Pedido> getPedidoById(Long id) {
+        return pedidoRepository.findById(id);
+    }
 }

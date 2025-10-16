@@ -2,6 +2,7 @@ package co.edu.poli.BogoThrashManager.RegistroPedidos.controller;
 
 import co.edu.poli.BogoThrashManager.Notificaciones.modelo.Notificacion;
 import co.edu.poli.BogoThrashManager.Notificaciones.service.NotificacionService;
+import co.edu.poli.BogoThrashManager.RegistroPedidos.dto.PedidoInsertDto;
 import co.edu.poli.BogoThrashManager.RegistroPedidos.modelo.Pedido;
 import co.edu.poli.BogoThrashManager.RegistroPedidos.service.PedidoService;
 
@@ -37,7 +38,7 @@ public class PedidoController {
     @PostMapping
     public ResponseEntity<Pedido> create(
         @Parameter(description = "Nuevo pedido del cliente", required = true)
-        @RequestBody Pedido pedido) {
+        @RequestBody PedidoInsertDto pedido) throws Exception {
         Pedido saved = pedidoService.createPedido(pedido);
         return ResponseEntity.ok(saved);
     }
