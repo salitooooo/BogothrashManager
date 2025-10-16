@@ -38,15 +38,20 @@ public class PedidoService {
         
         if (dto.getDetalle() != null) {
             DetallePedido detalleEntity = new DetallePedido();  // Create a new DetallePedido entity
-            detalleEntity.setPrecioTotal(dto.getDetalle().getPrecioTotal());
+           Double precioTotal = 0.0;
             
             if (dto.getDetalle().getProductos() != null) {
                 List<Long> productIds = new ArrayList<>();  // List to hold product IDs
                 for (Producto incomingProducto : dto.getDetalle().getProductos()) {
                     Producto existingOrNew = productoService.findOrCreateProducto(incomingProducto);
+                    precioTotal = precioTotal + existingOrNew.getPrecio();
                     productIds.add(existingOrNew.getIdProducto());
                 }
-                detalleEntity.setProductos(productIds);  // Set the list of product IDs
+                Double iva = precioTotal * 0.8;
+                
+                precioTotal = precioTotal + iva;
+                detalleEntity.setProductos(productIds);
+                detalleEntity.setPrecioTotal(precioTotal);// Set the list of product IDs
             }
             
             pedidoEntity.setDetalle(detalleEntity);  // Set the detalle in the Pedido entity

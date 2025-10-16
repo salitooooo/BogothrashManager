@@ -53,6 +53,6 @@ public class DetallePedido {
      * 
      */
 	@Column(name = "precioTotal")
-    private Long precioTotal;
+    private Double precioTotal;
 
 }
