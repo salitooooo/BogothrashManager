@@ -1,5 +1,8 @@
 package co.edu.poli.BogoThrashManager.RegistroInventario.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -7,6 +10,7 @@ import co.edu.poli.BogoThrashManager.RegistroInventario.modelo.Producto;
 import co.edu.poli.BogoThrashManager.RegistroInventario.modelo.ProductoBebida;
 import co.edu.poli.BogoThrashManager.RegistroInventario.modelo.ProductoSnack;
 import co.edu.poli.BogoThrashManager.RegistroInventario.repository.InventarioRepository;
+import co.edu.poli.BogoThrashManager.RegistroPedidos.modelo.Pedido;
 
 @Service
 public class ProductoService {
@@ -48,5 +52,19 @@ public class ProductoService {
         }
 	throw new IllegalArgumentException("Unsupported producto type: " + producto.getClass().getName());
 	}
+	public List<Producto> getAllProductos() {
+        return productoRepository.findAll();
 	}
+	 public boolean deleteProducto(Long id) {
+	        if (productoRepository.existsById(id)) {
+	            productoRepository.deleteById(id);
+	            return true;
+	        }
+	        return false;
+	    }
+
+	    public Optional<Producto> getProductoById(Long id) {
+	        return productoRepository.findById(id);
+	    }
+}
 
