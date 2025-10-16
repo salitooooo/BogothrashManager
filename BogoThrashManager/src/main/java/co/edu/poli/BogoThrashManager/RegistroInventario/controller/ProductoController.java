@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 
 
 @RestController
+@RequestMapping("/api/inventarios")
 public class ProductoController {
 	@Autowired
 	private ProductoService productoService;
