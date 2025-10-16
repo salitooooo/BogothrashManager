@@ -33,6 +33,9 @@ public class Pedido {
     @Column(name="cliente")
     private String cliente;
     
+    @Column(name = "correo")
+    private String correo;
+    
     @Column(name = "barista")
     private String barista;
     

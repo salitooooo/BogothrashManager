@@ -10,6 +10,8 @@ public class PedidoInsertDto {
 	
 	private String cliente;
 	
+	private String correo;
+	
 	private String barista;
 	
 	private String formaDePago;

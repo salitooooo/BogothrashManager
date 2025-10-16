@@ -29,6 +29,7 @@ public class PedidoService {
         
         // Map fields from DTO to entity
         pedidoEntity.setCliente(dto.getCliente());
+        pedidoEntity.setCorreo(dto.getCorreo());
         pedidoEntity.setBarista(dto.getBarista());
         pedidoEntity.setFormaDePago(dto.getFormaDePago());
         
