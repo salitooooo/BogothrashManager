@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.edu.poli.BogoThrashManager.Notificaciones.modelo.Notificacion;
+import co.edu.poli.BogoThrashManager.Notificaciones.service.NotificacionService;
 import co.edu.poli.BogoThrashManager.RegistroInventario.modelo.Producto;
 import co.edu.poli.BogoThrashManager.RegistroInventario.modelo.ProductoBebida;
 import co.edu.poli.BogoThrashManager.RegistroInventario.modelo.ProductoSnack;
@@ -16,6 +18,10 @@ import co.edu.poli.BogoThrashManager.RegistroPedidos.modelo.Pedido;
 public class ProductoService {
 	@Autowired 
 	private InventarioRepository productoRepository;
+	
+	@Autowired
+	private NotificacionService notificacionService;
+	
 	public Producto findOrCreateProducto (Producto producto) throws Exception{
 		//verificar polimorfismo
 	if (producto instanceof ProductoSnack) {
@@ -29,6 +35,7 @@ public class ProductoService {
                     newSnack.setTipo(snack.getTipo());  // Assume tipo is managed separately or fetched
                     newSnack.setEsDulce(snack.isEsDulce());
                     newSnack.setEsVegano(snack.isEsVegano());
+                    newSnack.setCantidad(30);
                     return productoRepository.save(newSnack);
                 });
 	}
@@ -47,6 +54,7 @@ public class ProductoService {
                 newBebida.setTipo(bebida.getTipo());
                 newBebida.setEsCaliente(bebida.isEsCaliente());
                 newBebida.setTieneAlcohol(bebida.isTieneAlcohol());
+                newBebida.setCantidad(30);
                 return productoRepository.save(newBebida);
             });
         }
@@ -66,5 +74,15 @@ public class ProductoService {
 	    public Optional<Producto> getProductoById(Long id) {
 	        return productoRepository.findById(id);
 	    }
+	    
+	public boolean alertarCantidad(Notificacion n,Producto p) {
+		//correo del administrador
+		n.setToEmail("carlos.a.gamboag@gmail.com");
+		n.setSubject("Alerta de inventario");
+		n.setBody("Alerta el producto:" + p.getNombre() + " se encuentra en baja cantidad" + "\n"
+		+ "Cantidad: " + p.getCantidad());
+		notificacionService.sendEmail(n);
+		return true;
+	}
 }
 

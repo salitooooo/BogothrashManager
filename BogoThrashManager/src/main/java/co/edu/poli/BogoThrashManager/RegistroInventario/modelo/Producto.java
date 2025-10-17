@@ -57,5 +57,8 @@ public abstract class Producto {
      */
 	@Column(name="precio")
     private long precio;
+	
+	@Column(name="cantidad")
+    private long cantidad;
 
 }

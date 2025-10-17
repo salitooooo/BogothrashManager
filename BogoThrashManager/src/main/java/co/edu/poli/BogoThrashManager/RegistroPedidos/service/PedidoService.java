@@ -1,5 +1,6 @@
 package co.edu.poli.BogoThrashManager.RegistroPedidos.service;
 
+import co.edu.poli.BogoThrashManager.Notificaciones.modelo.Notificacion;
 import co.edu.poli.BogoThrashManager.RegistroInventario.modelo.Producto;
 import co.edu.poli.BogoThrashManager.RegistroInventario.service.ProductoService;
 import co.edu.poli.BogoThrashManager.RegistroPedidos.dto.PedidoInsertDto;
@@ -44,7 +45,13 @@ public class PedidoService {
             if (dto.getDetalle().getProductos() != null) {
                 List<Long> productIds = new ArrayList<>();  // List to hold product IDs
                 for (Producto incomingProducto : dto.getDetalle().getProductos()) {
+                	Long cantidad = incomingProducto.getCantidad()-1;
+                    incomingProducto.setCantidad(cantidad);
                     Producto existingOrNew = productoService.findOrCreateProducto(incomingProducto);
+                    if(cantidad < 5){
+                    	Notificacion n = new Notificacion();
+                    	productoService.alertarCantidad(n, existingOrNew);
+                    }
                     precioTotal = precioTotal + existingOrNew.getPrecio();
                     productIds.add(existingOrNew.getIdProducto());
                 }
