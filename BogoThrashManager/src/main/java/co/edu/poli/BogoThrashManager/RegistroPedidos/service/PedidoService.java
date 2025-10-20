@@ -48,7 +48,7 @@ public class PedidoService {
                 	Long cantidad = incomingProducto.getCantidad()-1;
                     incomingProducto.setCantidad(cantidad);
                     Producto existingOrNew = productoService.findOrCreateProducto(incomingProducto);
-                    if(cantidad < 5){
+                    if(existingOrNew.getCantidad()<= 5){
                     	Notificacion n = new Notificacion();
                     	productoService.alertarCantidad(n, existingOrNew);
                     }
