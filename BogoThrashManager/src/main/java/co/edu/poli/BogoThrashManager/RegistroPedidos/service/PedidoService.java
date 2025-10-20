@@ -54,6 +54,7 @@ public class PedidoService {
                     }
                     precioTotal = precioTotal + existingOrNew.getPrecio();
                     productIds.add(existingOrNew.getIdProducto());
+                    
                 }
                 Double iva = precioTotal * 0.8;
                 
