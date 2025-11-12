@@ -9,6 +9,7 @@ import co.edu.poli.BogoThrashManager.RegistroPedidos.modelo.Pedido;
 import co.edu.poli.BogoThrashManager.RegistroPedidos.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,6 +24,9 @@ public class PedidoService {
 
     @Autowired
     private ProductoService productoService;
+    
+    @Autowired
+    private RestTemplate restTemplate;
 
     public Pedido createPedido(PedidoInsertDto dto) throws Exception {
         // Create a new Pedido entity
@@ -57,7 +61,7 @@ public class PedidoService {
                     
                 }
                 Double iva = precioTotal * 0.8;
-                
+                //TODO implement if statement for college discount
                 precioTotal = precioTotal + iva;
                 detalleEntity.setProductos(productIds);
                 detalleEntity.setPrecioTotal(precioTotal);// Set the list of product IDs
