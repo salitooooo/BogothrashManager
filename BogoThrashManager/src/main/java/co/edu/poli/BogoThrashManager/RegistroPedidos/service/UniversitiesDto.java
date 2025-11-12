@@ -16,4 +16,6 @@ public class UniversitiesDto {
 	
 	private List<String> webPages;
 	
+	//just because
+	
 }
