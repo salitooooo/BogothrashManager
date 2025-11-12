@@ -121,4 +121,11 @@ public class PedidoService {
     public Optional<Pedido> getPedidoById(Long id) {
         return pedidoRepository.findById(id);
     }
+    
+    public boolean verificarConvenioUniversidad(String u) {
+    	String url = "http://universities.hipolabs.com/search?name="+u;
+    	if (!restTemplate.getForObject(url, Universities.class).isEmpty() && restTemplate.getForObject(url, Universities.class).getCountry().toString().equals("Colombia")) {
+    		return true;
+    	} else return false;
+    }
 }
