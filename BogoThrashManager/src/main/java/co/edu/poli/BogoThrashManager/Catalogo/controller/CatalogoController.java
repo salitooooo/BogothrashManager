@@ -3,6 +3,7 @@ package co.edu.poli.BogoThrashManager.Catalogo.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.edu.poli.BogoThrashManager.Catalogo.modelo.Articulo;
 import co.edu.poli.BogoThrashManager.Catalogo.service.CatalogoService;
 import co.edu.poli.BogoThrashManager.RegistroInventario.modelo.Producto;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -20,28 +22,32 @@ import io.swagger.v3.oas.annotations.Parameter;
 @RequestMapping("/api/catalogo")
 public class CatalogoController {
 	
+	@Autowired
+	private CatalogoService catalogoService;
+	
+	
 	@PostMapping
-	 public ResponseEntity<String> create()
+	 public ResponseEntity<Articulo> create(@RequestBody Producto dto)
 	throws Exception{
-		return ResponseEntity.ok("prodcuto insertado correctamente");
+		return ResponseEntity.ok(catalogoService.createArticulo(dto));
 		
 	}
 	@GetMapping
-	public ResponseEntity <String> getAll(){
-		   return ResponseEntity.ok("lista de producto");
+	public ResponseEntity <List<Articulo>> getAll(){
+		   return ResponseEntity.ok(catalogoService.getAllArticulos());
     }
-	@GetMapping("/art/{nombre}")
-	 public ResponseEntity<String> getByNombre(
+	@GetMapping("/{nombre}")
+	 public ResponseEntity<Articulo> getByNombre(
 	@Parameter(description = "Id del producto por buscar", required = true)
 	@PathVariable String nombre){
-		return ResponseEntity.ok("articulo");
+		return ResponseEntity.ok(catalogoService.getArticuloByNombre(nombre));
 		
 	}
 	 @DeleteMapping("/{id}")
 	    public ResponseEntity<Void> delete(
 	    	@Parameter(description = "Id del producto por eliminar", required = true)
 	        @PathVariable Long id) {
-		 	boolean deleted = true;
+		 	boolean deleted = catalogoService.deleteArticulo(id);
 	        if (deleted) {
 	            return ResponseEntity.noContent().build();  // 204 No Content on success
 	        } else {
