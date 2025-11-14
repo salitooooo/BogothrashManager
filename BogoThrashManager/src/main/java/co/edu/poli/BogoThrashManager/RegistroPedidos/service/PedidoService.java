@@ -25,8 +25,8 @@ public class PedidoService {
     @Autowired
     private ProductoService productoService;
     
-  /*  @Autowired
-    private RestTemplate restTemplate;*/
+    @Autowired
+    private RestTemplate restTemplate;
 
     public Pedido createPedido(PedidoInsertDto dto) throws Exception {
         // Create a new Pedido entity
@@ -63,6 +63,54 @@ public class PedidoService {
                 Double iva = precioTotal * 0.8;
                 //TODO implement if statement for college discount
                 precioTotal = precioTotal + iva;
+                detalleEntity.setProductos(productIds);
+                detalleEntity.setPrecioTotal(precioTotal);// Set the list of product IDs
+            }
+            
+            pedidoEntity.setDetalle(detalleEntity);  // Set the detalle in the Pedido entity
+        }
+        
+        // Save the Pedido entity (this will also save the DetallePedido due to CascadeType.ALL)
+        return pedidoRepository.save(pedidoEntity);
+    }
+    public Pedido createPedido(PedidoInsertDto dto, String u) throws Exception {
+        // Create a new Pedido entity
+        Pedido pedidoEntity = new Pedido();
+        
+        // Map fields from DTO to entity
+        pedidoEntity.setCliente(dto.getCliente());
+        pedidoEntity.setCorreo(dto.getCorreo());
+        pedidoEntity.setBarista(dto.getBarista());
+        pedidoEntity.setFormaDePago(dto.getFormaDePago());
+        
+        // Set default values for fields not in DTO
+        pedidoEntity.setCupon(false);  // Default to false; you can change this if needed
+        pedidoEntity.setFechaCompra(new Date().toString());  // Set to current date as string
+        
+        if (dto.getDetalle() != null) {
+            DetallePedido detalleEntity = new DetallePedido();  // Create a new DetallePedido entity
+           Double precioTotal = 0.0;
+            
+            if (dto.getDetalle().getProductos() != null) {
+                List<Long> productIds = new ArrayList<>();  // List to hold product IDs
+                for (Producto incomingProducto : dto.getDetalle().getProductos()) {
+                	Long cantidad = incomingProducto.getCantidad()-1;
+                    incomingProducto.setCantidad(cantidad);
+                    Producto existingOrNew = productoService.findOrCreateProducto(incomingProducto);
+                    if(existingOrNew.getCantidad()<= 5){
+                    	Notificacion n = new Notificacion();
+                    	productoService.alertarCantidad(n, existingOrNew);
+                    }
+                    precioTotal = precioTotal + existingOrNew.getPrecio();
+                    productIds.add(existingOrNew.getIdProducto());
+                    
+                }
+                Double iva = precioTotal * 0.8;
+                //TODO implement if statement for college discount
+                if(verificarConvenioUniversidad(u)) {
+                	precioTotal = (precioTotal + iva) * 0.8;
+                }else precioTotal = precioTotal + iva;
+                
                 detalleEntity.setProductos(productIds);
                 detalleEntity.setPrecioTotal(precioTotal);// Set the list of product IDs
             }
@@ -122,10 +170,10 @@ public class PedidoService {
         return pedidoRepository.findById(id);
     }
     
-  /*  public boolean verificarConvenioUniversidad(String u) {
+    public boolean verificarConvenioUniversidad(String u) {
     	String url = "http://universities.hipolabs.com/search?name="+u;
-    	if (!restTemplate.getForObject(url, Universities.class).isEmpty() && restTemplate.getForObject(url, Universities.class).getCountry().toString().equals("Colombia")) {
+    	if (!restTemplate.getForObject(url, UniversitiesDto.class).toString().isEmpty() && restTemplate.getForObject(url, UniversitiesDto.class).toString().contains("Colombia")) {
     		return true;
     	} else return false;
-    }*/
+    }
 }
