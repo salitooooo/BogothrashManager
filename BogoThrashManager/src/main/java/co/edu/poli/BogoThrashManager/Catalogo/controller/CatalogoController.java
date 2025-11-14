@@ -34,7 +34,7 @@ public class CatalogoController {
 	@GetMapping("/{id}")
 	 public ResponseEntity<String> getById(
 	@Parameter(description = "Id del producto por buscar", required = true)
-	@PathVariable Long id){
+	@PathVariable String nombre){
 		return ResponseEntity.ok("articulo");
 		
 	}
