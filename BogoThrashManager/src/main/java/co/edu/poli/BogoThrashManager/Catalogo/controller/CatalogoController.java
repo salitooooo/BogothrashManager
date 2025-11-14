@@ -30,8 +30,8 @@ public class CatalogoController {
 	public ResponseEntity <String> getAll(){
 		   return ResponseEntity.ok("lista de producto");
     }
-	@GetMapping("/{id}")
-	 public ResponseEntity<String> getById(
+	@GetMapping("/art/{nombre}")
+	 public ResponseEntity<String> getByNombre(
 	@Parameter(description = "Id del producto por buscar", required = true)
 	@PathVariable String nombre){
 		return ResponseEntity.ok("articulo");
