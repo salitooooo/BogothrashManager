@@ -21,9 +21,8 @@ import io.swagger.v3.oas.annotations.Parameter;
 public class CatalogoController {
 	
 	@PostMapping
-	 public ResponseEntity<String> create(
-	@Parameter(description = "Detalles del catalogo", required = true)
-	@RequestBody Producto producto) throws Exception{
+	 public ResponseEntity<String> create()
+	throws Exception{
 		return ResponseEntity.ok("prodcuto insertado correctamente");
 		
 	}
