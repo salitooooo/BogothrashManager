@@ -15,9 +15,9 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @EnableJpaRepositories(
-	    basePackages = "co.edu.poli.BogoThrashManager.RegistroInventario.repository",
-	    entityManagerFactoryRef = "productoEntityManagerFactory",
-	    transactionManagerRef = "productoTransactionManager"
+	    basePackages = "co.edu.poli.BogoThrashManager.Catalogo.repository",
+	    entityManagerFactoryRef = "catalogoEntityManagerFactory",
+	    transactionManagerRef = "catalogoTransactionManager"
 	)
 public class CatalogoDatasourceConfig{
 	
@@ -26,7 +26,6 @@ public class CatalogoDatasourceConfig{
     public DataSource dataSource() {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl("jdbc:postgresql://aws-1-us-east-2.pooler.supabase.com:6543/postgres?sslmode=require");
-        System.out.println("sapopinga!");
         config.setUsername("postgres.fwkksjmzuzcmydtqebcq");
         config.setPassword("Servidor123");
         config.setDriverClassName("org.postgresql.Driver");
@@ -54,8 +53,8 @@ public class CatalogoDatasourceConfig{
             @Qualifier("catalogoDataSource") DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean em = builder
                 .dataSource(dataSource)
-                .packages("co.edu.poli.BogoThrashManager.RegistroInventario.modelo")
-                .persistenceUnit("producto")
+                .packages("co.edu.poli.BogoThrashManager.Catalogo.modelo")
+                .persistenceUnit("articulo")
                 .build();
         em.setJpaProperties(hibernateProperties());
         return em;

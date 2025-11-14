@@ -25,8 +25,8 @@ public class PedidoService {
     @Autowired
     private ProductoService productoService;
     
-    @Autowired
-    private RestTemplate restTemplate;
+  /*  @Autowired
+    private RestTemplate restTemplate;*/
 
     public Pedido createPedido(PedidoInsertDto dto) throws Exception {
         // Create a new Pedido entity
@@ -122,10 +122,10 @@ public class PedidoService {
         return pedidoRepository.findById(id);
     }
     
-    public boolean verificarConvenioUniversidad(String u) {
+  /*  public boolean verificarConvenioUniversidad(String u) {
     	String url = "http://universities.hipolabs.com/search?name="+u;
     	if (!restTemplate.getForObject(url, Universities.class).isEmpty() && restTemplate.getForObject(url, Universities.class).getCountry().toString().equals("Colombia")) {
     		return true;
     	} else return false;
-    }
+    }*/
 }
