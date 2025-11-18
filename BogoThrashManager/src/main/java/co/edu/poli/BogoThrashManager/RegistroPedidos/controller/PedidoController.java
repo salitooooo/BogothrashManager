@@ -50,6 +50,23 @@ public class PedidoController {
         return ResponseEntity.ok(saved);
     }
     
+    @PostMapping("/{universidad}")
+    public ResponseEntity<Pedido> create(
+        @Parameter(description = "Nuevo pedido del cliente", required = true)
+        @RequestBody PedidoInsertDto pedido,
+        @Parameter(description = "Universidad con convenio", required = true)
+        @PathVariable String universidad) throws Exception {
+        Pedido saved = pedidoService.createPedido(pedido, universidad);
+        if(pedido.getCorreo()!=null) {
+        	Notificacion n = new Notificacion();
+        	n.setSubject("Pedido realizado con Exito!");
+        	n.setToEmail(pedido.getCorreo());
+        	n.setBody(saved.toString());
+        	notificacionService.sendEmail(n);
+        }
+        return ResponseEntity.ok(saved);
+    }
+    
     @PostMapping("/mail")
     public ResponseEntity<String>sendMail(@RequestBody Notificacion n){
     	notificacionService.sendEmail(n);

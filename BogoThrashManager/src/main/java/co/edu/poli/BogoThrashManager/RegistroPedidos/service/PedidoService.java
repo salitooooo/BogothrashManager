@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -108,7 +109,9 @@ public class PedidoService {
                 Double iva = precioTotal * 0.8;
                 //TODO implement if statement for college discount
                 if(verificarConvenioUniversidad(u)) {
+                	System.out.println("yo phone lingin");
                 	precioTotal = (precioTotal + iva) * 0.8;
+                	pedidoEntity.setCupon(true);
                 }else precioTotal = precioTotal + iva;
                 
                 detalleEntity.setProductos(productIds);
@@ -172,7 +175,9 @@ public class PedidoService {
     
     public boolean verificarConvenioUniversidad(String u) {
     	String url = "http://universities.hipolabs.com/search?name="+u;
-    	if (!restTemplate.getForObject(url, UniversitiesDto.class).toString().isEmpty() && restTemplate.getForObject(url, UniversitiesDto.class).toString().contains("Colombia")) {
+    	List<UniversitiesDto> dtoList = Arrays.asList(
+    		    restTemplate.getForObject(url, UniversitiesDto[].class));
+    	if (!dtoList.isEmpty() && dtoList.toString().contains("Colombia")) {
     		return true;
     	} else return false;
     }
