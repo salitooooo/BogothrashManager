@@ -12,14 +12,14 @@ import co.edu.poli.BogoThrashManager.Catalogo.modelo.Articulo;
 
 @Repository
 public interface CatalogoRepository extends JpaRepository<Articulo, Long> {
-	@Query("SELECT c FROM  catalogo WHERE c.nombre =:nombre")
+
 	Optional<Articulo>findByNombre(
-			@Param("nombre") String nombre
+			String nombre
 	);
-	@Query("SELECT c FROM catalogo WHERE c.categoría =:categoria")
+
 	List<Articulo>findAllByCategoria(
-			@Param("categoria") String categoria
-			);
+			String categoria
+	);
 	
 
 }

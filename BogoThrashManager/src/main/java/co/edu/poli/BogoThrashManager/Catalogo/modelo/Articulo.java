@@ -31,7 +31,7 @@ public class Articulo {
 	@Column(name = "Tipo")
 	private String tipo;
 	
-	@Column (name = "Categoría")
+	@Column (name = "Categoria")
 	private String categoria;
 	
 	@Column(name = "precio")

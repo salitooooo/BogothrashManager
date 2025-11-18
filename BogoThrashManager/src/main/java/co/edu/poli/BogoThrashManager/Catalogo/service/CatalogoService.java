@@ -3,6 +3,7 @@ package co.edu.poli.BogoThrashManager.Catalogo.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import co.edu.poli.BogoThrashManager.Catalogo.modelo.Articulo;
 import co.edu.poli.BogoThrashManager.Catalogo.repository.CatalogoRepository;
@@ -13,7 +14,7 @@ import co.edu.poli.BogoThrashManager.RegistroPedidos.dto.PedidoInsertDto;
 import co.edu.poli.BogoThrashManager.RegistroPedidos.modelo.Pedido;
 import lombok.Data;
 
-
+@Service
 public class CatalogoService {
 	@Autowired
 	private CatalogoRepository catalogorepository;
