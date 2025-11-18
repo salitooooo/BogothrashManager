@@ -36,6 +36,10 @@ public class CatalogoController {
 	public ResponseEntity <List<Articulo>> getAll(){
 		   return ResponseEntity.ok(catalogoService.getAllArticulos());
     }
+	@GetMapping("/{categoria}")
+	public ResponseEntity <List<Articulo>> getAllCategoria(@PathVariable String categoria){
+		   return ResponseEntity.ok(catalogoService.getAllByCategoria(categoria));
+    }
 	@GetMapping("/{nombre}")
 	 public ResponseEntity<Articulo> getByNombre(
 	@Parameter(description = "Id del producto por buscar", required = true)

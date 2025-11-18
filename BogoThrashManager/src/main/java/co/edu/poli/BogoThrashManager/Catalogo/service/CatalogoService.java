@@ -29,6 +29,7 @@ public class CatalogoService {
 	            newArt.setTipo("Snack");
 	            
 	            ProductoSnack ps = (ProductoSnack) dto;
+	            System.out.println(ps);
 	            String categoria = "";
 	            if(ps.isEsDulce()) {
 	            	categoria += "dulce";
@@ -40,7 +41,7 @@ public class CatalogoService {
 	            }else {
 	            	categoria += " novegano";
 	            }
-	            System.out.println(categoria);
+	            newArt.setCategoria(categoria);
 	            return catalogorepository.save(newArt);
 	        });
 		}else {
