@@ -109,7 +109,6 @@ public class PedidoService {
                 Double iva = precioTotal * 0.8;
                 //TODO implement if statement for college discount
                 if(verificarConvenioUniversidad(u)) {
-                	System.out.println("yo phone lingin");
                 	precioTotal = (precioTotal + iva) * 0.8;
                 	pedidoEntity.setCupon(true);
                 }else precioTotal = precioTotal + iva;
@@ -176,11 +175,9 @@ public class PedidoService {
     
     
     public boolean verificarConvenioUniversidad(String u) {
-    	System.out.println("yo phone lingin + sapopinga");
     	String url = "http://universities.hipolabs.com/search?name="+u;
     	List<UniversitiesDto> dtoList = Arrays.asList(
     		    restTemplate.getForObject(url, UniversitiesDto[].class));
-		System.out.println(dtoList.get(0) + "sapopinga");
     	if (!dtoList.isEmpty() && dtoList.toString().contains("Colombia")) {
     		return true;
     	} else return false;
