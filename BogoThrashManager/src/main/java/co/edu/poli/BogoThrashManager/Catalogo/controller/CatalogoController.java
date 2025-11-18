@@ -36,7 +36,7 @@ public class CatalogoController {
 	public ResponseEntity <List<Articulo>> getAll(){
 		   return ResponseEntity.ok(catalogoService.getAllArticulos());
     }
-	@GetMapping("/{categoria}")
+	@GetMapping("/filter/{categoria}")
 	public ResponseEntity <List<Articulo>> getAllCategoria(@PathVariable String categoria){
 		   return ResponseEntity.ok(catalogoService.getAllByCategoria(categoria));
     }

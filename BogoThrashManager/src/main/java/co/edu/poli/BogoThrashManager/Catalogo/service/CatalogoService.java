@@ -37,9 +37,9 @@ public class CatalogoService {
 	            	categoria += "salado";
 	            }
 	            if(ps.isEsVegano()) {
-	            	categoria += " vegano";
+	            	categoria += "-vegano";
 	            }else {
-	            	categoria += " novegano";
+	            	categoria += "-novegano";
 	            }
 	            newArt.setCategoria(categoria);
 	            return catalogorepository.save(newArt);
@@ -60,11 +60,11 @@ public class CatalogoService {
 	            	categoria += "frio";
 	            }
 	            if(ps.isTieneAlcohol()) {
-	            	categoria += " alcohol";
+	            	categoria += "-alcohol";
 	            }else {
-	            	categoria += " noalcohol";
+	            	categoria += "-noalcohol";
 	            }
-	            System.out.println(categoria);
+	            newArt.setCategoria(categoria);
 	            return catalogorepository.save(newArt);
 	        });
 		}
