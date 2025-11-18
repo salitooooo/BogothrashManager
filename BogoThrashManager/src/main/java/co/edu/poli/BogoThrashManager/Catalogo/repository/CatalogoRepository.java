@@ -1,5 +1,6 @@
 package co.edu.poli.BogoThrashManager.Catalogo.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,7 +16,10 @@ public interface CatalogoRepository extends JpaRepository<Articulo, Long> {
 	Optional<Articulo>findByNombre(
 			@Param("nombre") String nombre
 	);
-	
+	@Query("SELECT c FROM catalogo WHERE c.categoría =:categoria")
+	List<Articulo>findAllByCategoria(
+			@Param("categoria") String categoria
+			);
 	
 
 }

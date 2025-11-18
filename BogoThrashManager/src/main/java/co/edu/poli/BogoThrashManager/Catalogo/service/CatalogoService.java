@@ -72,7 +72,11 @@ public class CatalogoService {
 	public List<Articulo> getAllArticulos() {
 		return catalogorepository.findAll();
 	}
-
+	
+	public List<Articulo> getAllByCategoria(String categoria){
+		return catalogorepository.findAllByCategoria(categoria);
+	}
+	
 	public boolean deleteArticulo(Long id) {
 		if(catalogorepository.existsById(id)) {
 			catalogorepository.deleteById(id);
