@@ -2,6 +2,10 @@ package co.edu.poli.BogoThrashManager.RegistroPedidos.service;
 
 import java.util.List;
 
+import lombok.Data;
+
+
+@Data
 public class UniversitiesDto {
 
 	private String name;

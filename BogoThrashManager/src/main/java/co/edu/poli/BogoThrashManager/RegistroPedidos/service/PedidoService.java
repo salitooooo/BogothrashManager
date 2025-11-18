@@ -173,10 +173,14 @@ public class PedidoService {
         return pedidoRepository.findById(id);
     }
     
+    
+    
     public boolean verificarConvenioUniversidad(String u) {
+    	System.out.println("yo phone lingin + sapopinga");
     	String url = "http://universities.hipolabs.com/search?name="+u;
     	List<UniversitiesDto> dtoList = Arrays.asList(
     		    restTemplate.getForObject(url, UniversitiesDto[].class));
+		System.out.println(dtoList.get(0) + "sapopinga");
     	if (!dtoList.isEmpty() && dtoList.toString().contains("Colombia")) {
     		return true;
     	} else return false;
