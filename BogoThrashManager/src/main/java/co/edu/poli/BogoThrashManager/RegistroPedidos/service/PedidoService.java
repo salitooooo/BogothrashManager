@@ -105,6 +105,7 @@ public class PedidoService {
                     precioTotal = precioTotal + existingOrNew.getPrecio();
                     productIds.add(existingOrNew.getIdProducto());
                     
+                    
                 }
                 Double iva = precioTotal * 0.8;
                 //TODO implement if statement for college discount
