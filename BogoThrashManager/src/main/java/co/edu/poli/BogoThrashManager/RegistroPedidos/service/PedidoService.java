@@ -105,11 +105,11 @@ public class PedidoService {
                     precioTotal = precioTotal + existingOrNew.getPrecio();
                     productIds.add(existingOrNew.getIdProducto());
                     
+                    
                 }
                 Double iva = precioTotal * 0.8;
                 //TODO implement if statement for college discount
                 if(verificarConvenioUniversidad(u)) {
-                	System.out.println("yo phone lingin");
                 	precioTotal = (precioTotal + iva) * 0.8;
                 	pedidoEntity.setCupon(true);
                 }else precioTotal = precioTotal + iva;
@@ -172,6 +172,8 @@ public class PedidoService {
     public Optional<Pedido> getPedidoById(Long id) {
         return pedidoRepository.findById(id);
     }
+    
+    
     
     public boolean verificarConvenioUniversidad(String u) {
     	String url = "http://universities.hipolabs.com/search?name="+u;
