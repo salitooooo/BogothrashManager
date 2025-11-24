@@ -16,8 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import co.edu.poli.BogoThrashManager.Catalogo.modelo.Articulo;
 import co.edu.poli.BogoThrashManager.Catalogo.service.CatalogoService;
 import co.edu.poli.BogoThrashManager.RegistroInventario.modelo.Producto;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag (name = "Catalogo", description = "Operaciones relacionadas al manejo del catalogo")
 @RestController
 @RequestMapping("/api/catalogo")
 public class CatalogoController {
@@ -25,28 +30,56 @@ public class CatalogoController {
 	@Autowired
 	private CatalogoService catalogoService;
 	
-	
+	@Operation(summary = "Añadir al catalogo", description = "Añade un producto al catalogo")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "404", description = "No se pudo añadir el producto / No se pudo encontrar el catalogo")
+    })
 	@PostMapping
-	 public ResponseEntity<Articulo> create(@RequestBody Producto dto)
+	 public ResponseEntity<Articulo> create(
+			 @Parameter(description = "Articulo a añadir", required = true)
+			 @RequestBody Producto dto)
 	throws Exception{
 		return ResponseEntity.ok(catalogoService.createArticulo(dto));
 		
 	}
+	@Operation(summary = "Consegir catalogo", description = "Consigue el catalogo con todos los productos")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "404", description = "No se pudo encontrar el catalogo")
+    })
 	@GetMapping
 	public ResponseEntity <List<Articulo>> getAll(){
 		   return ResponseEntity.ok(catalogoService.getAllArticulos());
     }
+	@Operation(summary = "Filtrar", description = "Consigue los prorductos del catalogo que cumplen con cierta categoria")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "404", description = "Categoria vacia / No existe")
+    })
 	@GetMapping("/filter/{categoria}")
-	public ResponseEntity <List<Articulo>> getAllCategoria(@PathVariable String categoria){
+	public ResponseEntity <List<Articulo>> getAllCategoria(
+			@Parameter(description = "Nombre de la categoria", required = true)
+			@PathVariable String categoria){
 		   return ResponseEntity.ok(catalogoService.getAllByCategoria(categoria));
     }
+	@Operation(summary = "Buscar", description = "Consigue el productor del catalogo con el mismo nombre")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "404", description = "No se pudo encontrar el producto")
+    })
 	@GetMapping("/{nombre}")
 	 public ResponseEntity<Articulo> getByNombre(
-	@Parameter(description = "Id del producto por buscar", required = true)
+	@Parameter(description = "Nombre del producto por buscar", required = true)
 	@PathVariable String nombre){
 		return ResponseEntity.ok(catalogoService.getArticuloByNombre(nombre));
 		
 	}
+	@Operation(summary = "Eliminar del catalogo", description = "Elimina un producto del catalogo")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "404", description = "No se pudo eliminar el producto o no existe")
+    })
 	 @DeleteMapping("/{id}")
 	    public ResponseEntity<Void> delete(
 	    	@Parameter(description = "Id del producto por eliminar", required = true)
