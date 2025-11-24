@@ -26,7 +26,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/api/catalogo")
 public class CatalogoController {
-	
+	//finalized
 	@Autowired
 	private CatalogoService catalogoService;
 	
