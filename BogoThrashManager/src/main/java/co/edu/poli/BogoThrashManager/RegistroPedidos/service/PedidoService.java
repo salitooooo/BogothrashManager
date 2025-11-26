@@ -52,6 +52,7 @@ public class PedidoService {
                 for (Producto incomingProducto : dto.getDetalle().getProductos()) {
                 	Long cantidad = incomingProducto.getCantidad()-1;
                     incomingProducto.setCantidad(cantidad);
+                    //find or create inventario
                     Producto existingOrNew = productoService.findOrCreateProducto(incomingProducto);
                     if(existingOrNew.getCantidad()<= 5){
                     	Notificacion n = new Notificacion();
